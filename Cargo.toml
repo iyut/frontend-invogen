@@ -1,0 +1,16 @@
+[package]
+name = "frontend_invogen"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+base64 = "0.13.0"
+gloo = "0.8"
+js-sys = "0.3"
+yew = { version = "0.20.0", features = ["csr"] }
+
+[dependencies.web-sys]
+version = "0.3"
+features = ["File", "DragEvent", "DataTransfer"]
