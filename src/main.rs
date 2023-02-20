@@ -9,8 +9,6 @@ fn document_logo() -> Html {
 	let image = use_state(|| "" );
 	html! {
 		<div class={ classes!( "document_logo_container" ) }>
-			<img class={ classes!( "document_logo_img" ) } alt="Document Logo" />
-			<Simple />
 			<Logo />
 		</div>
 	}
