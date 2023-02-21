@@ -6,7 +6,6 @@ pub mod header;
 
 #[function_component(DocumentLogo)]
 fn document_logo() -> Html {
-	let image = use_state(|| "" );
 	html! {
 		<div class={ classes!( "document_logo_container" ) }>
 			<Logo />

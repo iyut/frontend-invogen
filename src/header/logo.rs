@@ -5,6 +5,8 @@ use std::collections::HashMap;
 use base64::encode;
 use gloo::file::callbacks::FileReader;
 use gloo::file::File;
+use gloo::storage::LocalStorage;
+use gloo_storage::Storage;
 use web_sys::{ DragEvent, Event, FileList, HtmlInputElement };
 use yew::html::TargetCast;
 use yew::{ html, Callback, Component, Context, Html };
@@ -39,14 +41,18 @@ impl Component for Logo {
 	fn update( &mut self, ctx: &Context<Self>, msg: Self::Message ) -> bool {
 		match msg {
 			Msg::Loaded( file_name, file_type, data ) => {
+
 				self.files.push( FileDetails {
-					data,
+					data: data.clone(),
 					file_type,
 					name: file_name.clone(),
 				} );
 
+				LocalStorage::set( String::from( "testthis" ), encode( data ) ).ok();
+
 				self.readers.remove( &file_name );
-				true
+				
+				return true;
 			}
 
 			Msg::Files( files ) => {
@@ -70,7 +76,7 @@ impl Component for Logo {
 					self.readers.insert( file_name, task );
 				}
 
-				true
+				return true;
 			}
 		}
 	}
@@ -118,15 +124,17 @@ impl Component for Logo {
 
 impl Logo {
 	fn view_file( file: &FileDetails ) -> Html {
+
+		let yew: String = LocalStorage::get("testthis").unwrap_or_default();
 		html! {
 			<div class="preview-tile">
 				<p class="preview-name">{ format!( "{}", file.name ) }</p>
 				<div class="preview-media">
 					if file.file_type.contains( "image" ) {
-						<img src={  format!( "data:{};base64,{}", file.file_type, encode( &file.data ) ) } />
+						<img src={  format!( "data:{};base64,{}", file.file_type, yew ) } />
 					} else if file.file_type.contains( "video" ) {
 						<video controls={true}>
-							<source src={ format!( "data:{},base64,{}", file.file_type, encode( &file.data ) ) } type={file.file_type.clone() } />
+							<source src={ format!( "data:{},base64,{}", file.file_type, yew ) } type={file.file_type.clone() } />
 						</video>
 					}
 				</div>

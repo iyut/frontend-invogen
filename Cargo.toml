@@ -10,6 +10,7 @@ base64 = "0.13.0"
 gloo = "0.8"
 js-sys = "0.3"
 yew = { version = "0.20.0", features = ["csr"] }
+gloo-storage = "0.2.2"
 
 [dependencies.web-sys]
 version = "0.3"
